@@ -374,7 +374,3 @@ dotnet run --project clavierdor.csproj
 ## Auteur
 
 Projet realise autour du concept **Clavier D'Or**, un quiz pour developpeurs avec progression, pouvoirs, boss et rapport de partie exportable.
-
-## Licence
-
-Ce projet est fourni pour usage educatif et personnel.
