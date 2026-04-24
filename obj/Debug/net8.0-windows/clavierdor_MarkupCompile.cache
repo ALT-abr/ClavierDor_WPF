@@ -1,5 +1,5 @@
 ﻿clavierdor
-
+1.0.0.0
 
 winexe
 C#
@@ -12,7 +12,7 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\User\Projects\ClavierDorC#\clavierdor\App.xaml
 7-71460132
 
-31194187339
+33-1475261440
 257-679785182
 MainWindow.xaml;Views\Dialogs\Play.xaml;Views\Dialogs\Resume.xaml;Views\Pages\ExportPDF.xaml;Views\Pages\History.xaml;Views\Pages\Home.xaml;Views\Pages\Quiz.xaml;
 

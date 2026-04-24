@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("clavierdor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78f60f76e9e80b6fbe1ea1b5e2dc232db1055573")]
 [assembly: System.Reflection.AssemblyProductAttribute("clavierdor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("clavierdor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
