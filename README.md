@@ -357,24 +357,6 @@ dotnet build clavierdor.csproj
 dotnet run --project clavierdor.csproj
 ```
 
-## Problemes Connus
-
-- si `MySQL` n'est pas demarre dans `XAMPP`, certaines pages liees a la base ne chargeront pas correctement
-- certaines anciennes donnees peuvent ne pas contenir toutes les nouvelles colonnes ajoutees recentement
-- si `clavierdor.exe` est deja ouvert, une build peut echouer a cause du verrouillage du fichier
-
-## Ameliorations Possibles
-
-- ajouter une vraie gestion complete des boss vaincus par partie
-- rendre l'apercu PDF dynamique et identique au PDF final
-- ajouter des tests unitaires sur les services et view models
-- ajouter une administration des questions
-- ajouter un mode multi-joueurs ou classement
-
 ## Auteur
 
 Projet realise autour du concept **Clavier D'Or**, un quiz pour developpeurs avec progression, pouvoirs, boss et rapport de partie exportable.
-
-## Licence
-
-Ce projet est fourni pour usage educatif et personnel.
