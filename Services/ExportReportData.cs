@@ -1,5 +1,6 @@
 namespace clavierdor.Services;
 
+// Contient les informations deja preparees pour le rapport
 public class ExportReportData
 {
     public string PlayerName { get; set; } = string.Empty;

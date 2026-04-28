@@ -1,5 +1,6 @@
 namespace clavierdor.Data;
 
+// Centralise les parametres de connexion pour XAMPP
 public static class DatabaseSettings
 {
     public const string DefaultConnectionString =

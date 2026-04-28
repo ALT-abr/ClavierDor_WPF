@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using clavierdor.Data;
 using clavierdor.Models;
@@ -8,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace clavierdor.Services;
 
+// Regroupe les operations principales entre le jeu et la base de donnees
 public class GameDataService
 {
     public Partie? LastCreatedPartie { get; private set; }
 
+    // Cree un joueur et demarre une nouvelle partie
     public Partie CreatePartie(string playerName, string pouvoir)
     {
         using var context = new ClavierDorDbContext();
@@ -71,6 +72,7 @@ public class GameDataService
         return partie;
     }
 
+    // Recupere une partie
     public Partie? GetPartieById(int partieId)
     {
         using var context = new ClavierDorDbContext();
@@ -80,6 +82,7 @@ public class GameDataService
             .FirstOrDefault(x => x.Id == partieId);
     }
 
+    // Charge les questions dans l'ordre
     public IReadOnlyList<Question> GetOrderedQuizQuestions(IEnumerable<string> categories)
     {
         using var context = new ClavierDorDbContext();
@@ -127,6 +130,7 @@ public class GameDataService
         return result;
     }
 
+    // Sauvegarde la progression et met a jour l'historique
     public void SavePartie(Partie partie, string? defeatedBossName = null)
     {
         using var context = new ClavierDorDbContext();
@@ -169,6 +173,7 @@ public class GameDataService
         context.SaveChanges();
     }
 
+    // Cherche la derniere partie non terminee d'un joueur
     public Partie? FindOpenPartie(string playerName)
     {
         using var context = new ClavierDorDbContext();
@@ -182,6 +187,7 @@ public class GameDataService
             .FirstOrDefault();
     }
 
+    // Recupere toutes les entrees d'historique
     public IReadOnlyList<History> GetHistories()
     {
         using var context = new ClavierDorDbContext();
@@ -191,6 +197,7 @@ public class GameDataService
             .ToList();
     }
 
+    // Recupere la liste des noms de joueurs pour les listes deroulantes
     public IReadOnlyList<string> GetPlayerNames()
     {
         using var context = new ClavierDorDbContext();
@@ -202,25 +209,20 @@ public class GameDataService
             .ToList();
     }
 
+    // Recupere la derniere partie d'un joueur pour l'apercu ou l'export
     public History? GetLatestHistoryForPlayer(string playerName)
     {
         var normalizedName = playerName.Trim();
 
-        try
-        {
-            using var context = new ClavierDorDbContext();
+        using var context = new ClavierDorDbContext();
 
-            return context.Histories
-                .Include(x => x.Partie)
-                .OrderByDescending(x => x.PlayedAt)
-                .FirstOrDefault(x => x.PlayerName.ToLower() == normalizedName.ToLower());
-        }
-        catch (Exception ex) when (ex.Message.Contains("BossesKilled", StringComparison.OrdinalIgnoreCase))
-        {
-            return GetLatestHistoryForPlayerWithoutBossesKilled(normalizedName);
-        }
+        return context.Histories
+            .Include(x => x.Partie)
+            .OrderByDescending(x => x.PlayedAt)
+            .FirstOrDefault(x => x.PlayerName.ToLower() == normalizedName.ToLower());
     }
 
+    // Prepare toutes les donnees necessaires au rapport PDF
     public ExportReportData? GetExportReportData(string playerName)
     {
         var history = GetLatestHistoryForPlayer(playerName);
@@ -252,71 +254,4 @@ public class GameDataService
         };
     }
 
-    private History? GetLatestHistoryForPlayerWithoutBossesKilled(string normalizedName)
-    {
-        using var context = new ClavierDorDbContext();
-        using var connection = context.Database.GetDbConnection();
-
-        if (connection.State != ConnectionState.Open)
-        {
-            connection.Open();
-        }
-
-        using var command = connection.CreateCommand();
-        command.CommandText =
-            """
-            SELECT h.Id,
-                   h.PartieId,
-                   h.PlayerName,
-                   h.Pouvoir,
-                   h.Category,
-                   h.Score,
-                   h.IsFinished,
-                   h.PlayedAt,
-                   h.WonBoss,
-                   p.CreatedAt,
-                   p.FinishedAt,
-                   p.CurrentQuestionIndex
-            FROM histories h
-            LEFT JOIN parties p ON p.Id = h.PartieId
-            WHERE LOWER(h.PlayerName) = LOWER(@playerName)
-            ORDER BY h.PlayedAt DESC
-            LIMIT 1;
-            """;
-
-        var parameter = command.CreateParameter();
-        parameter.ParameterName = "@playerName";
-        parameter.Value = normalizedName;
-        command.Parameters.Add(parameter);
-
-        using var reader = command.ExecuteReader();
-
-        if (!reader.Read())
-        {
-            return null;
-        }
-
-        var history = new History
-        {
-            Id = reader.GetInt32(0),
-            PartieId = reader.GetInt32(1),
-            PlayerName = reader.GetString(2),
-            Pouvoir = reader.GetString(3),
-            Category = reader.GetString(4),
-            Score = reader.GetInt32(5),
-            IsFinished = reader.GetBoolean(6),
-            PlayedAt = reader.GetDateTime(7),
-            WonBoss = reader.GetBoolean(8),
-            BossesKilled = string.Empty,
-            Partie = new Partie
-            {
-                Id = reader.GetInt32(1),
-                CreatedAt = reader.IsDBNull(9) ? DateTime.UtcNow : reader.GetDateTime(9),
-                FinishedAt = reader.IsDBNull(10) ? null : reader.GetDateTime(10),
-                CurrentQuestionIndex = reader.IsDBNull(11) ? 0 : reader.GetInt32(11)
-            }
-        };
-
-        return history;
-    }
 }

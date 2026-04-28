@@ -26,6 +26,7 @@ public class ResumeViewModel : ViewModelBase
 
     public Partie? FoundPartie { get; private set; }
 
+    // Verifie le nom puis cherche une partie 
     public bool TryFindPartie(out string message)
     {
         if (string.IsNullOrWhiteSpace(PlayerName))

@@ -3,6 +3,7 @@ using clavierdor.Services;
 
 namespace clavierdor.ViewModels;
 
+// Prepare les donnees affichees sur la page d'export 
 public class ExportPdfViewModel : ViewModelBase
 {
     private readonly GameDataService _gameDataService;
@@ -17,16 +18,19 @@ public class ExportPdfViewModel : ViewModelBase
     private string _previewCategory = "-";
     private string _previewBossStatus = "-";
 
+    // Constructeur qui charge les joueurs "créer rapidement le ViewModel avec le service par défaut"
     public ExportPdfViewModel()
         : this(new GameDataService(), true)
     {
     }
 
+    // Constructeur charge automatiquement les joueurs "permettre d’utiliser un service déjà créé."
     public ExportPdfViewModel(GameDataService gameDataService)
         : this(gameDataService, true)
     {
     }
 
+    // Constructeur complet pour choisir si le chargement est automatique ""
     public ExportPdfViewModel(GameDataService gameDataService, bool autoLoad)
     {
         _gameDataService = gameDataService;
@@ -123,6 +127,7 @@ public class ExportPdfViewModel : ViewModelBase
 
     public string PreviewScoreLine => $"{PreviewScore} / 500";
 
+    // Charge les joueurs disponibles dans la liste deroulante
     public void LoadPlayers()
     {
         Players.Clear();
@@ -135,6 +140,7 @@ public class ExportPdfViewModel : ViewModelBase
         SelectedPlayerName = Players.Count > 0 ? Players[0] : null;
     }
 
+    // Charge l'apercu du rapport pour le joueur selectionne
     private void LoadPreview()
     {
         if (string.IsNullOrWhiteSpace(SelectedPlayerName))
@@ -163,6 +169,7 @@ public class ExportPdfViewModel : ViewModelBase
         PreviewBossStatus = history.WonBoss ? "Boss vaincu" : "Boss non vaincu";
     }
 
+    // Remet l'apercu a son etat vide.
     private void ResetPreview()
     {
         PreviewPlayerName = "Aucun joueur";

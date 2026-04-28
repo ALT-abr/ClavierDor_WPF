@@ -4,6 +4,7 @@ namespace clavierdor.ViewModels;
 
 public class HistoryItemViewModel
 {
+    // Transforme une entree History en textes 
     public HistoryItemViewModel(History history)
     {
         PlayerName = history.PlayerName;

@@ -32,11 +32,13 @@ public class QuizPageViewModel : ViewModelBase
     private bool _pouvoirUsed;
     private bool _backPowerActiveForCurrentQuestion;
 
+
     public QuizPageViewModel(int partieId)
         : this(new GameDataService(), partieId)
     {
     }
 
+    // Initialise le quiz pour une partie precise
     public QuizPageViewModel(GameDataService gameDataService, int partieId)
     {
         _gameDataService = gameDataService;
@@ -162,6 +164,7 @@ public class QuizPageViewModel : ViewModelBase
         }
     }
 
+    // Active le pouvoir choisi 
     public bool UsePouvoir(out string message)
     {
         if (_partie is null || CurrentQuestion is null)
@@ -214,6 +217,7 @@ public class QuizPageViewModel : ViewModelBase
         return success;
     }
 
+    // Verifie la reponse, met a jour le score et passe a la question suivante
     public bool SubmitAnswer(string selectedAnswer, out string resultMessage)
     {
         if (_partie is null || CurrentQuestion is null)
@@ -297,6 +301,7 @@ public class QuizPageViewModel : ViewModelBase
         return isCorrect;
     }
 
+    // Charge la partie et les questions depuis la base
     public void Load()
     {
         _partie = _gameDataService.GetPartieById(_partieId);
@@ -325,6 +330,7 @@ public class QuizPageViewModel : ViewModelBase
         UpdateState();
     }
 
+    // Met a jour les textes affiches selon la question courante
     private void UpdateState()
     {
         if (_partie is null)
@@ -352,6 +358,7 @@ public class QuizPageViewModel : ViewModelBase
         IsCompleted = false;
     }
 
+    // Pouvoir Front 
     private bool TryUseFrontPower(out string message)
     {
         if (CurrentQuestion is null)
@@ -394,6 +401,7 @@ public class QuizPageViewModel : ViewModelBase
         return true;
     }
 
+    // Pouvoir Mobile 
     private string BuildMobileHint()
     {
         if (CurrentQuestion is null)

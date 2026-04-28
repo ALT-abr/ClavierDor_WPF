@@ -1,10 +1,7 @@
 using System.Windows;
 
+// Configure la recherche des ressources et themes WPF de l'application.
 [assembly:ThemeInfo(
-    ResourceDictionaryLocation.None,            //where theme specific resource dictionaries are located
-                                                //(used if a resource is not found in the page,
-                                                // or application resource dictionaries)
-    ResourceDictionaryLocation.SourceAssembly   //where the generic resource dictionary is located
-                                                //(used if a resource is not found in the page,
-                                                // app, or any theme specific resource dictionaries)
+    ResourceDictionaryLocation.None,            // Pas de dictionnaire de themes externe.
+    ResourceDictionaryLocation.SourceAssembly   // Les ressources generales sont dans ce projet.
 )]

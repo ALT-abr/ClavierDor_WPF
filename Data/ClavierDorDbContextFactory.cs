@@ -5,6 +5,7 @@ namespace clavierdor.Data;
 
 public class ClavierDorDbContextFactory : IDesignTimeDbContextFactory<ClavierDorDbContext>
 {
+    // Cree un DbContext avec la meme connexion que l'application
     public ClavierDorDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ClavierDorDbContext>();

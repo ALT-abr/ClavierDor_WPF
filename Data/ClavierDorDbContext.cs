@@ -3,12 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace clavierdor.Data;
 
+//la connexion entre l’applicatoin et la base
 public class ClavierDorDbContext : DbContext
 {
+    // Constructeur utilise quand le contexte se configure lui meme
     public ClavierDorDbContext()
     {
     }
 
+    // Constructeur utilise quand les options sont fournies de l'exterieur
     public ClavierDorDbContext(DbContextOptions<ClavierDorDbContext> options)
         : base(options)
     {
@@ -19,6 +22,7 @@ public class ClavierDorDbContext : DbContext
     public DbSet<Partie> Parties => Set<Partie>();
     public DbSet<History> Histories => Set<History>();
 
+    // Configure la connexion si elle n'a pas deja faite
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured)
@@ -31,6 +35,7 @@ public class ClavierDorDbContext : DbContext
             new MariaDbServerVersion(DatabaseSettings.XamppMariaDbVersion));
     }
 
+    // Configure les tables, les relations et les contraintes des modeles
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Player>(entity =>

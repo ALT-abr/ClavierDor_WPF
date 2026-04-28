@@ -9,6 +9,7 @@ public partial class Resume : Window
 
     public ResumeViewModel ViewModel { get; }
 
+    // Prepare la fenetre 
     public Resume()
     {
         InitializeComponent();
@@ -18,16 +19,19 @@ public partial class Resume : Window
         PlayerNameTextBox.SelectAll();
     }
 
+    // Ferme la fenetre 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
     }
 
+    // Annule la reprise de partie
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
     }
 
+    // Cherche une partie en cours
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.PlayerName = PlayerNameTextBox.Text == PlaceholderText
@@ -53,6 +57,7 @@ public partial class Resume : Window
         }
     }
 
+    // Efface le texte indicatif quand le champ recoit le focus
     private void PlayerNameTextBox_GotFocus(object sender, RoutedEventArgs e)
     {
         if (PlayerNameTextBox.Text == PlaceholderText)
@@ -61,6 +66,7 @@ public partial class Resume : Window
         }
     }
 
+    // Remet le texte indicatif si aucun nom n'est saisi
     private void PlayerNameTextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(PlayerNameTextBox.Text))

@@ -5,13 +5,13 @@ using clavierdor.Services;
 using clavierdor.ViewModels;
 
 namespace clavierdor.Views.Pages;
-
 public partial class ExportPDF : Page
 {
     public ExportPdfViewModel ViewModel { get; }
     private readonly GameDataService _gameDataService;
     private readonly PdfExportService _pdfExportService;
 
+    // Initialise les services et charge les joueurs disponibles
     public ExportPDF()
     {
         _gameDataService = new GameDataService();
@@ -32,11 +32,13 @@ public partial class ExportPDF : Page
         }
     }
 
+    // Retourne a la page d'accueil
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         NavigationService?.Navigate(new Home());
     }
 
+    // Genere le PDF
     private void ExportButton_Click(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(ViewModel.SelectedPlayerName))

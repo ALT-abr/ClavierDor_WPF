@@ -9,6 +9,7 @@ public partial class Play : Window
 
     public PlayViewModel ViewModel { get; }
 
+    // Prepare la fenetre 
     public Play()
     {
         InitializeComponent();
@@ -19,16 +20,19 @@ public partial class Play : Window
         PlayerNameTextBox.SelectAll();
     }
 
+    // Ferme la fenetre
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
     }
 
+    // Annule la creation
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         DialogResult = false;
     }
 
+    // Valide le formulaire et cree la partie
     private void StartButton_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.PlayerName = PlayerNameTextBox.Text == PlaceholderText
@@ -60,6 +64,7 @@ public partial class Play : Window
         }
     }
 
+    // Efface le texte indicatif quand le champ recoit le focus
     private void PlayerNameTextBox_GotFocus(object sender, RoutedEventArgs e)
     {
         if (PlayerNameTextBox.Text == PlaceholderText)
@@ -68,6 +73,7 @@ public partial class Play : Window
         }
     }
 
+    // Remet le texte indicatif si il y a aucun nom
     private void PlayerNameTextBox_LostFocus(object sender, RoutedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(PlayerNameTextBox.Text))
