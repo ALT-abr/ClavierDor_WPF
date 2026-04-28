@@ -43,7 +43,6 @@ public partial class Resume : Window
                 return;
             }
 
-            MessageBox.Show(message, "Clavier D'Or");
             DialogResult = true;
         }
         catch (Exception ex)

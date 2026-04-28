@@ -50,7 +50,6 @@ public partial class Play : Window
                 return;
             }
 
-            MessageBox.Show(message, "Clavier D'Or");
             DialogResult = true;
         }
         catch (Exception ex)

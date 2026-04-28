@@ -27,6 +27,7 @@ public class QuizPageViewModel : ViewModelBase
     private string _playerText = string.Empty;
     private string _scoreText = "0";
     private string _hintText = string.Empty;
+    private string _feedbackText = string.Empty;
     private bool _isCompleted;
     private bool _pouvoirUsed;
     private bool _backPowerActiveForCurrentQuestion;
@@ -120,6 +121,12 @@ public class QuizPageViewModel : ViewModelBase
         private set => SetProperty(ref _hintText, value);
     }
 
+    public string FeedbackText
+    {
+        get => _feedbackText;
+        private set => SetProperty(ref _feedbackText, value);
+    }
+
     public bool IsCompleted
     {
         get => _isCompleted;
@@ -160,12 +167,14 @@ public class QuizPageViewModel : ViewModelBase
         if (_partie is null || CurrentQuestion is null)
         {
             message = "Aucune question active.";
+            FeedbackText = message;
             return false;
         }
 
         if (_pouvoirUsed)
         {
             message = "Vous avez deja utilise votre pouvoir.";
+            FeedbackText = message;
             return false;
         }
 
@@ -192,9 +201,14 @@ public class QuizPageViewModel : ViewModelBase
 
         if (success)
         {
+            FeedbackText = message;
             _pouvoirUsed = true;
             RaisePropertyChanged(nameof(CanUsePouvoir));
             RaisePropertyChanged(nameof(PouvoirButtonText));
+        }
+        else
+        {
+            FeedbackText = message;
         }
 
         return success;
@@ -205,6 +219,7 @@ public class QuizPageViewModel : ViewModelBase
         if (_partie is null || CurrentQuestion is null)
         {
             resultMessage = "La partie n'a pas pu etre chargee.";
+            FeedbackText = resultMessage;
             return false;
         }
 
@@ -234,8 +249,8 @@ public class QuizPageViewModel : ViewModelBase
                     defeatedBossName = string.IsNullOrWhiteSpace(BossTitle) ? "Boss final" : BossTitle;
                 }
                 resultMessage = isCorrect
-                    ? $"{BossTitle} vaincu. +50 points."
-                    : $"{BossTitle} vous a battu. -20 points.";
+                    ? $"{BossTitle} vaincu."
+                    : $"{BossTitle} vous a battu.";
             }
             else
             {
@@ -245,16 +260,16 @@ public class QuizPageViewModel : ViewModelBase
                     defeatedBossName = string.IsNullOrWhiteSpace(BossTitle) ? $"Boss {CurrentQuestion.Category}" : BossTitle;
                 }
                 resultMessage = isCorrect
-                    ? $"{BossTitle} vaincu. +30 points."
-                    : $"{BossTitle} vous a battu. -10 points.";
+                    ? $"{BossTitle} vaincu."
+                    : $"{BossTitle} vous a battu.";
             }
         }
         else
         {
             delta = isCorrect ? 3 : 0;
             resultMessage = isCorrect
-                ? "Bonne reponse. +3 points."
-                : "Mauvaise reponse. 0 point.";
+                ? "Bonne reponse."
+                : "Mauvaise reponse.";
         }
 
         if (!string.IsNullOrWhiteSpace(correctionMessage))
@@ -277,6 +292,7 @@ public class QuizPageViewModel : ViewModelBase
         _partie.Category = CurrentQuestion.Category;
         _gameDataService.SavePartie(_partie, defeatedBossName);
         UpdateState();
+        FeedbackText = resultMessage;
 
         return isCorrect;
     }
@@ -294,6 +310,7 @@ public class QuizPageViewModel : ViewModelBase
             PlayerText = "Joueur introuvable";
             ScoreText = "0";
             HintText = string.Empty;
+            FeedbackText = string.Empty;
             IsCompleted = false;
             return;
         }

@@ -119,12 +119,20 @@
                                    Foreground="{StaticResource GoldBrush}"
                                    Visibility="Collapsed"
                                    Text="{Binding BossTitle}" />
+                        <TextBlock x:Name="FeedbackTextBlock"
+                                   Margin="0,6,0,0"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource GoldBrush}"
+                                   Text="{Binding FeedbackText}"
+                                   TextWrapping="Wrap"
+                                   Visibility="Collapsed" />
                     </StackPanel>
 
                     <TextBlock Grid.Row="1"
-                               Margin="0,28,0,24"
+                               Margin="0,16,0,24"
                                TextWrapping="Wrap"
-                               FontSize="31"
+                               FontSize="25"
                                FontWeight="Bold"
                                Foreground="{StaticResource TextBrush}"
                                Text="{Binding QuestionText}" />
